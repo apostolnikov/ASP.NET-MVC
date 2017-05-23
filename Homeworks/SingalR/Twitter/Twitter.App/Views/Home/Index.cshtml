@@ -1,0 +1,118 @@
+﻿@using Twitter.App.Models.ViewModels.HomeViewModels
+@model List<TweetViewModel>
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<br />
+<div class="row">
+    <div class="col-lg-10">
+        <h1>All Tweets:</h1>
+        @foreach (var @tweet in @Model)
+        {
+            @*@Html.RenderPartial("~/Views/Shared/_Tweet.cshtml", @tweet);*@
+            @Html.DisplayForModel();
+        }
+    </div>
+    
+    <div class="col-lg-2">
+        <h1>All Users:</h1>
+        @{ HashSet<string> names = new HashSet<string>();}
+        @foreach (var @name in @Model)
+        {
+            var param = string.Format("{0}{1}", @name.Username, "/");
+            if (@names.Contains(@name.Username))
+            {
+                continue;
+            }
+            else
+            {
+                <h4>
+                    @Html.ActionLink(name.Username, "Profile", "User", new { id = param }, null)
+                </h4>
+                names.Add(name.Username);
+            }
+        }
+    </div>
+</div>
+
+@section scripts
+{
+    <script src="~/Scripts/jquery.signalR-2.2.0.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script>
+         
+        $(document).ready(function () {
+            var tweetsHub = $.connection.tweets;
+            tweetsHub.client.receiveMessage = function(tweet) {
+                var name = tweet.Username + '/';
+
+                var divColLgSix = $("<div>").addClass("col-lg-6");
+                $("<p>").text(tweet.TimeOfPublication).appendTo(divColLgSix);
+
+                var a = $("<a>").attr("href", "/User/Profile/" + name);
+                a.html(tweet.Username);
+
+                var h3 = $("<h3>");
+                a.appendTo(h3);
+
+                var div = $("<div>");
+                h3.appendTo(div);
+                div.appendTo(divColLgSix);
+
+                var h4 = $("<h4>");
+                $("<i>").attr("class", "glyphicon glyphicon-comment").appendTo(h4);
+                h4.appendTo(divColLgSix);
+
+                var divTabPaneWell = $("<div>").attr("class", "tab-pane well");
+                divTabPaneWell.html(tweet.Content);
+                divTabPaneWell.appendTo(divColLgSix);
+
+                var divButtons = $("<div>").css("display", "flex");
+                divButtons.css("justify-content", "flex-end");
+
+                var aFavorite = $("<a>").attr("href", "/Notifications/Favorite");
+                aFavorite.attr("class","btn btn-primary");
+                aFavorite.html("Favorite");
+                aFavorite.appendTo(divButtons);
+
+                var aRetweet = $("<a>").attr("href", "/Notifications/Retweet");
+                aRetweet.attr("class", "btn btn-primary");
+                aRetweet.html("Retweet");
+                aRetweet.appendTo(divButtons);
+
+                var aReport = $("<a>").attr("href", "/Notifications/Report");
+                aReport.attr("class", "btn btn-primary");
+                aReport.html("Report");
+                aReport.appendTo(divButtons);
+
+                var aReply = $("<a>").attr("href", "/Notifications/Reply");
+                aReply.attr("class", "btn btn-primary");
+                aReply.html("Reply");
+                aReply.appendTo(divButtons);
+
+                var aShare = $("<a>").attr("href", "/Notifications/Share");
+                aShare.attr("class", "btn btn-primary");
+                aShare.html("Share");
+                aShare.appendTo(divButtons);
+
+                divButtons.appendTo(divColLgSix);
+
+                $("<br/>").insertAfter(divColLgSix);
+
+                var divTweetRow = $("<div>").attr("class", "row");
+                divTweetRow.attr("id", "tweet-row");
+                divColLgSix.appendTo(divTweetRow);
+                $("<hr>").insertAfter(divTweetRow);
+                divTweetRow.insertBefore($("#tweet-row"));
+
+
+                console.log(tweet);
+            }
+
+            $.connection.hub.start();
+        })
+
+    </script>
+
+}

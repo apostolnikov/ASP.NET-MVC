@@ -1,0 +1,29 @@
+﻿@using System.Globalization;
+
+@model Twitter.Web.Models.ViewModels.ProfileUserViewModel
+
+<div class="row">
+    <div class="col-md-12" id="usershort">
+        <img src="User Pic" alt="User Theme" id="userTheme"/><br />
+        <img src="User Pic" alt="User Pic" style="display:inline-block; float:left" />
+        <b>@Html.ActionLink(@Model.FullName, null, @Model.Username, null, null)</b><br />
+        <div>@Model.AboutMe</div>
+    </div>
+</div><br />
+
+@Html.ActionLink("@" + @Model.Username, null, @Model.Username, null, null)<br />
+
+@if (Model.UserProfile)
+{
+    <script>
+        $("#userTheme").appendTo("#userThemewrapper");
+        $("#userTheme").css({
+            "width": "100%",
+            "height": "250px",
+            "display":"block",
+            "border":"solid",
+            "clear":"both",
+            "float" : "none"
+        });
+    </script>
+}

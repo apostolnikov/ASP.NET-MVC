@@ -1,0 +1,22 @@
+﻿@using Twitter.Data
+@using System;
+@using Twitter.Data.Models;
+@model IEnumerable<Tweet>
+
+<div class="home-wrapper">
+    @Html.Partial("_AllTweetsPartial")
+    <nav>
+        <ul class="pagination">
+            @{
+                var context = new TwitterDbContext();
+                double countTweets = context.Tweets.Count();
+                int pageCount =(int) Math.Ceiling(countTweets/10);
+                for (int i = 1; i <= pageCount; i++)
+                {
+                    int startPage = i - 1;
+                <li><a href="/Home/Index?startPage=@startPage">@i</a></li>
+            }
+            }
+        </ul>
+    </nav>
+</div>

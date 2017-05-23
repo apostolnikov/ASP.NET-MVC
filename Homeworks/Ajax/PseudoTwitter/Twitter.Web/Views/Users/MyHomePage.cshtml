@@ -1,0 +1,45 @@
+﻿@using AutoMapper
+
+@using Twitter.Web.Models.ViewModels
+
+@{
+    ViewBag.Title = "My Home Page";
+    Layout = "~/Views/Shared/_LoggedInLayout.cshtml";
+}
+
+@model UserViewModel
+
+@section SideBar
+{
+    <aside style="float:left; display:inline-block; margin-right:20px">
+        @Html.DisplayForModel(Mapper.Map<UserViewModel, ProfileUserViewModel>(Model))
+
+        <div style="display:inline-block">@Html.ActionLink("tweets " + @Model.TweetsCount, "Redirect", "Users", new { username = Model.Username, load = "showTweets" }, null)</div>
+        <div style="display:inline-block">@Html.ActionLink("favorite " + @Model.FavoritesCount, "Redirect", "Users", new { username = Model.Username, load = "showFavorites" }, null)</div>
+        <div style="display:inline-block">@Html.ActionLink("following " + @Model.FollowingCount, "Redirect", "Users", new { username = Model.Username, load = "showFollowing" }, null)</div>
+        <div style="display:inline-block">@Html.ActionLink("followers " + @Model.FollowersCount, "Redirect", "Users", new { username = Model.Username, load = "showFollowers" }, null)</div>
+    </aside>
+}
+<div style="float:left; display:inline-block">
+    @Html.Partial("_NewTweet")
+
+    <div id="tweets-wrapper"></div>
+</div>
+
+@section scripts
+{
+    <script>
+        $(function () {
+            $.ajax({
+                url: '@Url.Action("ReturnTweets", "Users")',
+                data: {userId: String('@Model.Id')},
+                type: 'POST',
+                success: function(data) {
+                    $("#tweets-wrapper").html(data);
+                }
+            });
+        });
+    </script>
+}
+
+

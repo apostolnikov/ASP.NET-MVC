@@ -1,0 +1,20 @@
+﻿@using AutoMapper
+
+@using Twitter.Web.Models.ViewModels
+
+@model UserViewModel
+
+@Html.Partial("~/Views/Shared/DisplayTemplates/ProfileUserViewModel.cshtml", Mapper.Map<UserViewModel, ProfileUserViewModel>(Model))
+
+@if(!Model.IsMe)
+{
+    if(Model.CreatedAt != null)
+    {
+        <div>Joined: @Model.CreatedAt</div>
+    }
+    if(Model.LastUpdated != null)
+    {
+       <div>Last Update Occur: @Model.LastUpdated</div>
+    }
+    <input type="submit" class="subm-tweet" value="Tweet to @Model.Username" />
+}

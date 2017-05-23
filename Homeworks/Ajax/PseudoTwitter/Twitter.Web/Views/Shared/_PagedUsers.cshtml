@@ -1,0 +1,17 @@
+﻿@using PagedList
+@using PagedList.Mvc
+
+@using Twitter.Web.Models.ViewModels
+
+@model PagedList<PagedUserViewModel>
+
+<div class="col-sm-10">
+    @foreach (PagedUserViewModel user in Model)
+    {
+        @Html.DisplayFor(m => user)
+    }
+    <div class="center">
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page, pageSize = Model.PageSize }))
+        Showing @(Model.LastItemOnPage == 0 ? 0 : Model.FirstItemOnPage) to @Model.LastItemOnPage out of @Model.TotalItemCount Tweets
+    </div>
+</div>

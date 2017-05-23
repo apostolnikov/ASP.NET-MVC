@@ -1,0 +1,44 @@
+﻿@using PagedList;
+@using AutoMapper
+
+@using Twitter.Web.Models.ViewModels
+
+@{
+    ViewBag.Title = "Notifications Page";
+    Layout = "~/Views/Shared/_LoggedInLayout.cshtml";
+}
+
+@model PagedList<PagedNotificationViewModel>
+
+<h2>Notifications</h2>
+
+<div style="float:left; display:inline-block">
+    @Ajax.ActionLink("All", "ReturnAllNotifications", "Notifications", null,
+              new AjaxOptions
+              {
+                  HttpMethod = "POST",
+                  UpdateTargetId = "wrapper",
+                  InsertionMode = InsertionMode.Replace,
+              }, new { @class = "btn btn-primary", id = "showAll"})
+
+    @Ajax.ActionLink("People you follow", "ReturnFollowedUsersNotifications", "Notifications", null,
+              new AjaxOptions
+              {
+                  HttpMethod = "POST",
+                  UpdateTargetId = "wrapper",
+                  InsertionMode = InsertionMode.Replace,
+              }, new { @class = "btn btn-primary", id = "showFollowing"})
+    
+    
+    <div id="wrapper"></div>
+</div>
+
+@section scripts
+{
+    <script>
+        $(function () {
+            $('#showAll').click();
+        });
+    </script>    
+}
+

@@ -1,0 +1,67 @@
+﻿@using System.Globalization;
+@using Twitter.Web.Helpers
+
+@model Twitter.Web.Models.ViewModels.PagedTweetViewModel
+
+<div class="row">
+    <div class="col-md-12">
+        <img src="@Model.AuthorProfilePicture" alt="@Model.AuthorFirstName's Profile Pic" class="prof-pic-paged-tweet"/>
+        @Model.AuthorFirstName @Model.AuthorLastName <b>@Html.ActionLink("@" + @Model.AuthorUsername, "", @Model.AuthorUsername, null, null)</b><br />
+        @Model.CreatedAt.ToString("dd.MMMM.yyyy", CultureInfo.InvariantCulture)<br />
+        @Html.TextBox("text", @Model.Text, new { @readonly = "readonly" })<br />
+        @Ajax.RawActionLink("favor <span class='badge'>" + @Model.FavoriteCount + "</span>", "FavorTweet", "Tweets", new { id = Model.Id },
+              new AjaxOptions
+              {
+                  HttpMethod = "POST",
+                  UpdateTargetId = "favor-btn",
+                  InsertionMode = InsertionMode.Replace,
+              }, new { @class = "btn btn-primary", id = "favor-btn" })
+        
+        @*<button id="favor-btn" class="tweet-btns">favor @Model.FavoriteCount</button>*@
+        <button id="retweet-btn" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">retweet @Model.RetweetedCount</button>
+        <button id="report-btn">report</button>
+        <button id="replay-btn">replay</button>
+        <button id="share-btn">share</button><br />
+
+        <div id="result" name="show-retweets"></div>
+
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog modal-lg">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Modal Header</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Some text in the modal.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section scripts
+{
+    <script>
+        $("#favor-btn").click(function () {
+            @Model.Id
+            $.ajax({
+                url: '@Url.Action("FavorTweet", "Tweets")',
+                data: { id: parseInt('@Model.Id') },
+                type: 'POST',
+                success: function (data) {
+                    $("#favor-btn").html(data);
+                }
+            });
+        });
+    </script>
+}
+

@@ -1,0 +1,13 @@
+﻿@using System.Globalization;
+
+@model Twitter.Web.Models.ViewModels.PagedUserViewModel
+
+<div class="row">
+    <div class="col-md-12">
+        <img src="User Pic" alt="User Theme" /><br />
+        <img src="User Pic" alt="User Pic" style="display:inline-block; float:left"/>
+        <b>@Html.ActionLink(@Model.FullName, null, @Model.Username, null, null)</b><br />
+        @Html.ActionLink("@" + @Model.Username, null, @Model.Username, null, null)<br />
+        <div>@Model.AboutMe</div>
+    </div>
+</div><br />

@@ -1,0 +1,33 @@
+﻿#home-anny-tweets-wrapper{
+    width:60%;
+    display:inline-block;
+    float:left;
+    margin:20px;
+    padding:10px;
+}
+
+#home-anny-users-wrapper{
+    width:30%;
+    display:inline-block;
+    float:left;
+    margin:20px;
+    padding:10px;
+}
+
+.list-group{
+    /*width:100%;
+    text-align:center;*/
+}
+
+#wrapper{
+    width:100%;
+    display:block;
+}
+
+.container{
+    width:100%;
+}
+
+.toggle-tooltip{
+    color:yellow;
+}

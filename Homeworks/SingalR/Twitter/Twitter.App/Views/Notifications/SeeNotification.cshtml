@@ -1,0 +1,11 @@
+﻿@model List<Twitter.App.Models.ViewModels.NotificationViewModel>
+@{
+    ViewBag.Title = "SeeNotification";
+}
+<br/>
+<div class="row" style="border: 1px solid skyblue; border-radius: 5px;padding: 20px 15px">
+    @foreach (var not in Model)
+    {
+        <div class="alert alert-info" role="alert"><time>@not.TimeOfNotification</time>----@not.Content</div>
+    }
+</div>

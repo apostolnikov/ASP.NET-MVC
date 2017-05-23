@@ -1,0 +1,5 @@
+There is a small bug that I noticed near before the deadline of the task which I couldn't fix on time.
+Representation: when you login with a new user and you haven't got any tweets and select 
+"My profile" there will be a error.
+The solution for now is just to make a new tweet before opening the "My profile".
+(I know its annoying and I'm going to clean this asap) 

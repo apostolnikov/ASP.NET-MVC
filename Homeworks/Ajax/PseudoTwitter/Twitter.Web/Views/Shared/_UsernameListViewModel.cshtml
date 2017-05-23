@@ -1,0 +1,11 @@
+﻿@model List<string>
+
+<div class="container">
+    <h2><span class="glyphicon glyphicon-circle-arrow-down"></span> All users</h2>
+    <div class="list-group">
+        @foreach (var username in Model)
+        {
+            <a href="\@username" data-toggle="tooltip" title="Hooray!" data-placement="left" class = "list-group-item .toggle-tooltip">@@@username</a>
+        }
+    </div>
+</div>

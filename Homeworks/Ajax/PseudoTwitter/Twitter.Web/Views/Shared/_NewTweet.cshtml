@@ -1,0 +1,7 @@
+﻿@using (Html.BeginForm("Create", "Tweets", null, FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.TextArea("newTweetText")<br />
+    <input type="submit" value="Tweet"/>
+} 
+<br \>

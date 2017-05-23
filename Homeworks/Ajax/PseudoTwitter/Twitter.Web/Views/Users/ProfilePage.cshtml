@@ -1,0 +1,111 @@
+﻿@using Twitter.Web.Helpers
+
+@{
+    ViewBag.Title = "Profile Page";
+
+    if(TempData["loggedInUser"].Equals(true))
+    {
+        Layout = "~/Views/Shared/_LoggedInLayout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}
+
+@model Twitter.Web.Models.ViewModels.UserViewModel    
+
+@section SideBar
+{
+    <aside style="float:left; display:inline-block; margin-right:20px">
+        @Html.DisplayForModel(Model)
+        @Ajax.RawActionLink("tweets <span class='badge'>" + @Model.TweetsCount + "</span>", "ReturnOwnTweets", "Users", new { userId = Model.Id },
+              new AjaxOptions
+                {
+                    HttpMethod = "POST",
+                    UpdateTargetId = "list-loader",
+                    //LoadingElementId = "timeDisplayLoading",
+                    InsertionMode = InsertionMode.Replace,
+                    //OnBegin = "OnAjaxRequestBegin",
+                    //OnFailure = "OnAjaxRequestFailure",
+                    //OnSuccess = "OnAjaxRequestSuccess",
+                    //OnComplete = "OnAjaxRequestComplete",
+                }, new { @class = "btn btn-primary", id = "showTweets" })
+
+        @Ajax.RawActionLink("favorite <span class='badge'>" + @Model.FavoritesCount + "</span>", "ReturnFavoriteTweets", "Users", new { userId = Model.Id },
+              new AjaxOptions
+              {
+                  HttpMethod = "POST",
+                  UpdateTargetId = "list-loader",
+                  //LoadingElementId = "timeDisplayLoading",
+                  InsertionMode = InsertionMode.Replace,
+                  //OnBegin = "OnAjaxRequestBegin",
+                  //OnFailure = "OnAjaxRequestFailure",
+                  //OnSuccess = "OnAjaxRequestSuccess",
+                  //OnComplete = "OnAjaxRequestComplete",
+              }, new { @class = "btn btn-primary", id = "showFavorites" })
+
+        @Ajax.RawActionLink("following <span class='badge'>" + @Model.FollowingCount + "</span>", "ReturnFollowing", "Users", new { userId = Model.Id },
+              new AjaxOptions
+              {
+                  HttpMethod = "POST",
+                  UpdateTargetId = "list-loader",
+                  //LoadingElementId = "timeDisplayLoading",
+                  InsertionMode = InsertionMode.Replace,
+                  //OnBegin = "OnAjaxRequestBegin",
+                  //OnFailure = "OnAjaxRequestFailure",
+                  //OnSuccess = "OnAjaxRequestSuccess",
+                  //OnComplete = "OnAjaxRequestComplete",
+              }, new { @class = "btn btn-primary", id = "showFollowing" })
+
+
+        @Ajax.RawActionLink("followers <span class='badge'>" + @Model.FollowersCount + "</span>", "ReturnFollowers", "Users", new { userId = Model.Id },
+              new AjaxOptions
+              {
+                  HttpMethod = "POST",
+                  UpdateTargetId = "list-loader",
+                  //LoadingElementId = "timeDisplayLoading",
+                  InsertionMode = InsertionMode.Replace,
+                  //OnBegin = "OnAjaxRequestBegin",
+                  //OnFailure = "OnAjaxRequestFailure",
+                  //OnSuccess = "OnAjaxRequestSuccess",
+                  //OnComplete = "OnAjaxRequestComplete",
+              }, new { @class = "btn btn-primary", id = "showFollowers" })  
+    </aside>
+}
+
+<div style="float:left; display:inline-block" id="list-loader"></div>
+
+@section scripts
+{
+    @if (TempData["load"] == null)
+    {
+        <script>
+        $(function () {
+            $.ajax({
+                url: '@Url.Action("ReturnTweets", "Users")',
+                data: {userId: String('@Model.Id')},
+                type: 'POST',
+                success: function(data) {
+                    $("#list-loader").html(data);
+                }
+            });
+        });
+        </script>
+    }
+    else
+    {
+        <script>
+        $(function () {
+            $('#@TempData["load"]').click();
+        });
+        </script>
+    }    
+}
+
+
+
+
+
+
+

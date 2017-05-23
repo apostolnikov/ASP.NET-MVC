@@ -1,0 +1,61 @@
+﻿@using PagedList
+
+@using Twitter.Web.Models.ViewModels
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<h2><span class="glyphicon glyphicon-circle-arrow-down"></span> All Tweets</h2>
+
+@model Tuple<PagedList<PagedTweetViewModel>, List<string>>
+
+<div id="helper" style="display:none">Loading...</div>
+
+<div id="wrapper">
+    <div id="home-anny-tweets-wrapper">@Html.Partial("_PagedTweets", Model.Item1)</div>
+    <div id="home-anny-users-wrapper">
+        <div class="container">
+            <h2><span class="glyphicon glyphicon-circle-arrow-down"></span> All users</h2>
+            <div class="list-group">
+                @foreach (var username in Model.Item2)
+                {
+                    <a href="\@username" data-toggle="tooltip" title ="blaah" options="html:true" id = "@username" class="list-group-item .toggle-tooltip">@@@username</a>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip({ placement: 'left', delay: { show: 50, hide: 100 }, html: true });
+            $('[data-toggle="tooltip"]').on('show.bs.tooltip', function (e) {
+                var txt = $(e.target).text();
+                $.get("/Users/ToolTip", { username: txt },
+                    function (data) {
+                        $("#helper").html(data);
+                        console.log(data);
+                        var t = String("#" + txt.substring(1));
+                        $(t).attr("title", String(data));
+                        //$(t).tooltip({ title: data, track: true })
+                    });
+            });
+        });
+
+        $('[data-toggle="tooltip"]').on('show.bs.tooltip', function (e) {
+            var txt = $(e.target).text();
+            $.get("/Users/ToolTip", { username: txt },
+                function (data) {
+                    $("#helper").html(data);
+                    console.log(data);
+                    var t = String("#" + txt.substring(1));
+                    $(t).attr("title", String(data));
+                    //$(t).tooltip({ title: data, track: true })
+                });
+        });
+    </script>
+}
+

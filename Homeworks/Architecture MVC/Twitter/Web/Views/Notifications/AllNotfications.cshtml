@@ -1,0 +1,34 @@
+﻿@using Twitter.Data.Models;
+@model IQueryable<Web.Models.ViewModels.NotificationViewModel>
+
+
+<h2>Notifications</h2>
+<div class="media" style="padding-bottom: 8% !important">
+    @foreach (var notification in Model)
+    {
+        <div class="tweet-wrapper">
+            <div class="media-left media-top">
+                <a href="#">
+                    <img class="media-object" src="@notification.SenderAvatarUrl" style="width: 4rem; height: 4rem; border-radius: 15%" alt="">
+                </a>
+            </div>
+            <div class="media-body">
+                @switch (@notification.Type.ToString())
+                {
+                    case "Retweet":
+                        <h5 class="media-heading"><b>@notification.SenderFullName</b> has retweeted your tweet</h5>
+                        <div>@notification.CreatedAt</div>
+                        break;
+                    case "Like":
+                        <h5 class="media-heading"><b>@notification.SenderFullName</b> has liked your tweet</h5>
+                        <div>@notification.CreatedAt</div>
+                        break;
+                    case "Follow":
+                        <h5 class="media-heading"><b>@notification.SenderFullName</b> has followed you</h5>
+                        <div>@notification.CreatedAt</div>
+                        break;
+                }
+            </div>
+        </div>
+    }
+</div>

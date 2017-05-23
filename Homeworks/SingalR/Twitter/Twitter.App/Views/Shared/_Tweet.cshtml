@@ -1,0 +1,29 @@
+﻿@model Twitter.App.Models.ViewModels.HomeViewModels.TweetViewModel
+    
+@{
+     var param = string.Format("{0}{1}", @Html.DisplayFor(m => m.Username), "/");
+
+}
+
+<div class="row">
+    <div class="col-lg-6">
+        <p>@Html.DisplayFor(m => m.TimeOfPublication)</p>
+        <div>
+            <h3>
+                @Html.ActionLink(@Html.DisplayFor(m => m.Username).ToString(), "Profile", "User", new { id = @param }, null)
+            </h3>
+        </div>
+        <h4>
+            <i class="glyphicon glyphicon-comment"></i>
+        </h4>
+        <div class="tab-pane well" style="overflow: auto">@Html.DisplayFor(m =>m.Content)</div>
+        <div style="display: flex; justify-content: flex-end">
+            @Html.ActionLink("Favorite", "Favorite", "Notifications", new { id = @Html.DisplayFor(m => m.Id) } , new { @class = "btn btn-primary" })
+            @Html.ActionLink("Retweet", "Retweet", "Notifications", new { id = @Html.DisplayFor(m => m.Id) } , new {@class = "btn btn-primary"})
+            @Html.ActionLink("Report", "Index", "User", new {@class = "btn btn-primary"})
+            @Html.ActionLink("Reply", "Index", "User", new {@class = "btn btn-primary"})
+            @Html.ActionLink("Share", "Index", "User", new {@class = "btn btn-primary"})
+        </div>
+        <hr />
+    </div>
+</div>
